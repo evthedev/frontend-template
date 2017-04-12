@@ -5,11 +5,22 @@ var // setup modules
 	newer = require('gulp-newer'); // checks for newer files in the output folder
 	imagemin = require('gulp-imagemin'), // optimise images
 	htmlclean = require('gulp-htmlclean'), // minifies HTML
+
+	// gulp plugins for js
 	concat = require('gulp-concat'), // compiles js into a single file
 	deporder = require('gulp-deporder'), // analyses comments at the top of each script to ensure correct ordering 
 	stripdebug = require('gulp-strip-debug'), // removes all console and debug statements
 	uglify = require('gulp-uglify'), // minifies js
 
+	// gulp plugins for css
+	sass = require('gulp-sass'), // compiles scss files into a single css file
+	postcss = require('gulp-postcss'), // postcss treatments
+		// postcss plugins
+		assets = require('postcss-assets'), // manages assets by resolving file paths
+		autoprefixer = require('autoprefixer'), // automatically adds vendor prefixes
+		mqpacker = require('css-mqpacker'), // pack multiple media queries into a single rule
+		cssnano = require('cssnano') // minify CSS code (in production)
+	 
 	// dev mode?
 	devBuild = (process.env.NODE_ENV !== 'production'),
 
@@ -44,7 +55,7 @@ gulp.task('images', function() {
 	.pipe(gulp.dest(out));
 });
 
-/* Minifies HTML */
+/* Minifies HTML task */
 gulp.task('html', ['images'], function() { // the ['images'] tells gulp to run 'images' task first
 	var out = folder.build + 'html/';
 	var page = gulp.src(folder.src + 'html/**/*').pipe(newer(out));
@@ -67,4 +78,43 @@ gulp.task('js', function(){
 	return jsbuild.pipe(gulp.dest(out));
 });
 
+/* CSS task */
+gulp.task('css', ['images'], function(){
+	var out = folder.build + 'css/';
+	var postCssOpts = [
+		assets({ loadPaths: ['images/'] }),
+		autoprefixer({ browsers: ['last 2 versions', '> 2%'] }),
+		mqpacker
+	];
+
+	if (!devBuild) {
+		postCssOpts.push(cssnano);
+	}	
+	return gulp.src(folder.src + 'scss/style.scss')
+	.pipe(sass({
+		outputStyle: 'nested',
+		imagePath: 'images/',
+		precision: 3,
+		errLogToConsole: true
+	}))
+	.pipe(postcss(postCssOpts))
+	.pipe(gulp.dest(out));
+});
+
+/* The run task */
+gulp.task('run', ['html', 'css', 'js']);
+
+/* Watch task */
+gulp.task('watch', function(){
+	gulp.watch(folder.src + '/images/**/*', ['images']); // image changes
+	gulp.watch(folder.src + '/html/**/*', ['html']); // html changes
+	gulp.watch(folder.src + '/js/**/*', ['js']); // js changes
+	gulp.watch(folder.src + '/scss/**/*', ['css']); // scss changes
+});
+
 /******* Set up tasks end ***********/
+
+/******* Create default gulp task ***/
+
+gulp.task('default', ['run', 'watch']);
+
