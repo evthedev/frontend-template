@@ -5,6 +5,10 @@ var // setup modules
 	newer = require('gulp-newer'); // checks for newer files in the output folder
 	imagemin = require('gulp-imagemin'), // optimise images
 	htmlclean = require('gulp-htmlclean'), // minifies HTML
+	concat = require('gulp-concat'), // compiles js into a single file
+	deporder = require('gulp-deporder'), // analyses comments at the top of each script to ensure correct ordering 
+	stripdebug = require('gulp-strip-debug'), // removes all console and debug statements
+	uglify = require('gulp-uglify'), // minifies js
 
 	// dev mode?
 	devBuild = (process.env.NODE_ENV !== 'production'),
@@ -41,15 +45,26 @@ gulp.task('images', function() {
 });
 
 /* Minifies HTML */
-gulp.task('htmlclean', function() {
+gulp.task('html', ['images'], function() { // the ['images'] tells gulp to run 'images' task first
 	var out = folder.build + 'html/';
 	var page = gulp.src(folder.src + 'html/**/*').pipe(newer(out));
 	// check if is production, add pipe to minimise production html
-	if !devBuild {
+	if (!devBuild) {
 		page = page.pipe(htmlclean(out));
 	}
 	return page.pipe(gulp.dest(out));
 });
 
+/* JS task */
+gulp.task('js', function(){
+	var out = folder.build + 'js/';
+	var jsbuild = gulp.src(folder.src + 'js/**/*')
+	.pipe(deporder())
+	.pipe(concat('script.js')); // combine all js files into one single file, named 'script.js'
+	if(!devBuild) {
+		jsbuild = jsbuild.pipe(stripdebug()).pipe(uglify());
+	}
+	return jsbuild.pipe(gulp.dest(out));
+});
 
 /******* Set up tasks end ***********/
