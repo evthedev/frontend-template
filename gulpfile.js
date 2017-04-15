@@ -19,8 +19,11 @@ var // setup modules
 		assets = require('postcss-assets'), // manages assets by resolving file paths
 		autoprefixer = require('autoprefixer'), // automatically adds vendor prefixes
 		mqpacker = require('css-mqpacker'), // pack multiple media queries into a single rule
-		cssnano = require('cssnano') // minify CSS code (in production)
+		cssnano = require('cssnano'), // minify CSS code (in production)
 	 
+	// browsersync
+	browserSync = require('browser-sync'),
+
 	// dev mode?
 	devBuild = (process.env.NODE_ENV !== 'production'),
 
@@ -98,7 +101,17 @@ gulp.task('css', ['images'], function(){
 		errLogToConsole: true
 	}))
 	.pipe(postcss(postCssOpts))
-	.pipe(gulp.dest(out));
+	.pipe(gulp.dest(out))
+	.pipe(browserSync.reload({stream: true}));
+});
+
+/* browsersync task */
+gulp.task('browser-sync', function(){
+	browserSync.init(null, {
+		server: {
+			baseDir: ["./build/css", "./build/html"]
+		}
+	});
 });
 
 /* The run task */
@@ -116,5 +129,5 @@ gulp.task('watch', function(){
 
 /******* Create default gulp task ***/
 
-gulp.task('default', ['run', 'watch']);
+gulp.task('default', ['run', 'watch', 'browser-sync']);
 
