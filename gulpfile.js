@@ -66,7 +66,8 @@ gulp.task('html', ['images'], function() { // the ['images'] tells gulp to run '
 	if (!devBuild) {
 		page = page.pipe(htmlclean(out));
 	}
-	return page.pipe(gulp.dest(out));
+	return page.pipe(gulp.dest(out))
+	.pipe(browserSync.reload({stream: true}));;
 });
 
 /* JS task */
@@ -122,8 +123,8 @@ gulp.task('serve', function(){
 			]
 		}
 	});
-	gulp.watch('./scss/**/*', ['css']);
-	gulp.watch('../build/html/**/*').on('change', browserSync.reload);
+	// gulp.watch('./scss/**/*', ['css']);
+	// gulp.watch('./html/**/*').on('change', browserSync.reload);
 });
 
 /* The run task */
