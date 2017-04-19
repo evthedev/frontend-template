@@ -22,7 +22,7 @@ var // setup modules
 		cssnano = require('cssnano'), // minify CSS code (in production)
 	 
 	// browsersync
-	browserSync = require('browser-sync'),
+	browserSync = require('browser-sync').create(),
 
 	// dev mode?
 	devBuild = (process.env.NODE_ENV !== 'production'),
@@ -82,6 +82,12 @@ gulp.task('js', function(){
 });
 
 /* CSS task */
+
+var css_libraries = [
+      'node_modules/normalize.css/normalize.css',
+      folder.src + 'scss/style.scss'
+];
+
 gulp.task('css', ['images'], function(){
 	var out = folder.build + 'css/';
 	var postCssOpts = [
@@ -93,7 +99,7 @@ gulp.task('css', ['images'], function(){
 	if (!devBuild) {
 		postCssOpts.push(cssnano);
 	}	
-	return gulp.src(folder.src + 'scss/style.scss')
+	return gulp.src(css_libraries)
 	.pipe(sass({
 		outputStyle: 'nested',
 		imagePath: 'images/',
@@ -101,17 +107,23 @@ gulp.task('css', ['images'], function(){
 		errLogToConsole: true
 	}))
 	.pipe(postcss(postCssOpts))
+	.pipe(concat('style.css'))
 	.pipe(gulp.dest(out))
 	.pipe(browserSync.reload({stream: true}));
 });
 
 /* browsersync task */
-gulp.task('browser-sync', function(){
-	browserSync.init(null, {
+gulp.task('serve', function(){
+	browserSync.init({
 		server: {
-			baseDir: ["./build/css", "./build/html"]
+			baseDir: [
+				"./build/html",
+				"./build/css"
+			]
 		}
 	});
+	gulp.watch('./scss/**/*', ['css']);
+	gulp.watch('../build/html/**/*').on('change', browserSync.reload);
 });
 
 /* The run task */
@@ -129,5 +141,5 @@ gulp.task('watch', function(){
 
 /******* Create default gulp task ***/
 
-gulp.task('default', ['run', 'watch', 'browser-sync']);
+gulp.task('default', ['run', 'watch', 'serve']);
 
