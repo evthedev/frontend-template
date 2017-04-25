@@ -20,6 +20,13 @@ var // setup modules
 		autoprefixer = require('autoprefixer'), // automatically adds vendor prefixes
 		mqpacker = require('css-mqpacker'), // pack multiple media queries into a single rule
 		cssnano = require('cssnano'), // minify CSS code (in production)
+
+	// linting tools
+	csslint = require('gulp-csslint-latest'),
+	eslint = require('gulp-eslint'),
+
+	// babel 
+	babel = require('gulp-babel'); // transpiles es6 js to es5
 	 
 	// browsersync
 	browserSync = require('browser-sync').create(),
@@ -75,11 +82,16 @@ gulp.task('js', function(){
 	var out = folder.build + 'js/';
 	var jsbuild = gulp.src(folder.src + 'js/**/*')
 	.pipe(deporder())
-	.pipe(concat('script.js')); // combine all js files into one single file, named 'script.js'
+	.pipe(babel())
+	.pipe(concat('script.js')) // combine all js files into one single file, named 'script.js'
+	.pipe(eslint({configFile: '.eslintrc.json'}))
+	.pipe(eslint.format())
 	if(!devBuild) {
 		jsbuild = jsbuild.pipe(stripdebug()).pipe(uglify());
 	}
-	return jsbuild.pipe(gulp.dest(out));
+	return jsbuild.pipe(gulp.dest(out))
+	.pipe(browserSync.reload({stream: true}));
+
 });
 
 /* CSS task */
@@ -88,6 +100,12 @@ var css_libraries = [
       'node_modules/normalize.css/normalize.css',
       folder.src + 'scss/style.scss'
 ];
+
+var csslint_options = {
+	"unqualified-attributes": false,
+	"box-sizing": false,
+	"compatible-vendor-prefixes": false
+}
 
 gulp.task('css', ['images'], function(){
 	var out = folder.build + 'css/';
@@ -109,6 +127,8 @@ gulp.task('css', ['images'], function(){
 	}))
 	.pipe(postcss(postCssOpts))
 	.pipe(concat('style.css'))
+    .pipe(csslint(csslint_options))
+    .pipe(csslint.reporter())
 	.pipe(gulp.dest(out))
 	.pipe(browserSync.reload({stream: true}));
 });
@@ -119,7 +139,8 @@ gulp.task('serve', function(){
 		server: {
 			baseDir: [
 				"./build/html",
-				"./build/css"
+				"./build/css",
+				"./build/js"
 			]
 		}
 	});
