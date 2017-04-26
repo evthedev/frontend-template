@@ -29,7 +29,7 @@ var // setup modules
 	babel = require('gulp-babel'); // transpiles es6 js to es5
 	
 	// webpack
-	webpack = require('webpackk');
+	webpack = require('webpack');
 	
 	// browsersync
 	browserSync = require('browser-sync').create(),
