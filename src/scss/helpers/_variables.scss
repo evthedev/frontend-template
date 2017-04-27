@@ -1,0 +1,48 @@
+/* Media Query Screen Sizes ------------------------------------------------ */
+
+$xsmall-devices: 480px;
+$small-devices: 768px;
+$medium-devices: 991px;
+$large-devices: 1200px;
+
+/* Fonts / Sizes ----------------------------------------------------------- */
+
+// Declare custom font families here
+
+// @font-face {
+//  font-family: 'Rust G';
+//  src: url('../src/fonts/introrustg-base2line-webfont.eot'); /* IE9 Compat Modes */
+//  /*src: url('../src/fonts/introrustg-base2line-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */*/
+//       /*url('../src/fonts/introrustg-base2line-webfont.woff2') format('woff2'),  Super Modern Browsers */
+//       /*url('../src/fonts/introrustg-base2line-webfont.woff') format('woff'), /* Pretty Modern Browsers */*/
+//       /*url('../src/fonts/introrustg-base2line-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */*/
+//       /*url('../src/fonts/introrustg-base2line-webfont.svg#svgFontName') format('svg'); /* Legacy iOS */*/
+///*}*/
+
+$font-default: "Open Sans", sans-serif;
+$font-secondary: "Montserrat", $font-default;
+
+$font16: 16px;
+$fontawesome: "FontAwesome";
+
+$gray-one: #1a1a1a;
+$gray-two: #a6a6a6;
+$gray-three: #b1b1b1;
+$gray-four: #d2d2d2;
+$gray13: rgb(33, 33, 33);
+$gray60: rgb(153, 153, 153);
+$gray98: rgb(250, 250, 250);
+
+$black: rgb(0, 0, 0);
+$white: rgb(255, 255, 255);
+$purple: #a500f9;
+$orange: rgb(232, 96, 53);
+$yellow: rgb(234, 191, 26);
+$blue-two: #a9ecff;
+$red: #ff0000;
+
+$primary-color: $orange;
+
+/* Effects / ---------------------------------------------------------------- */
+
+$transition-bezier: all .3s cubic-bezier(.03,.27,.45,1);

@@ -1,2 +1,11 @@
-// @import 'partials/_mixins';
-@import 'partials/_template';
+@import 'bourbon';
+@import 'helpers/_functions';
+@import 'helpers/_variables';
+@import 'helpers/_mixins';
+@import 'base/_template';
+@import 'base/_typography';
+@import 'components/_components';
+@import 'helpers/_helpers';
+@import 'layouts/_header';
+@import 'layouts/_footer';
+@import 'pages/_home';

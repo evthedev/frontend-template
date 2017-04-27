@@ -31,6 +31,9 @@ var // setup modules
 	// browsersync
 	browserSync = require('browser-sync').create(),
 
+	// gulp utility
+	gutil = require('gulp-util'),
+
 	// dev mode?
 	devBuild = (process.env.NODE_ENV !== 'production'),
 
@@ -104,7 +107,10 @@ var css_libraries = [
 var csslint_options = {
 	"unqualified-attributes": false,
 	"box-sizing": false,
-	"compatible-vendor-prefixes": false
+	"compatible-vendor-prefixes": false,
+	"zero-units": false,
+	"unique-headings": false,
+	"important": false
 }
 
 gulp.task('css', ['images'], function(){
@@ -123,8 +129,9 @@ gulp.task('css', ['images'], function(){
 		outputStyle: 'nested',
 		imagePath: 'images/',
 		precision: 3,
-		errLogToConsole: true
-	}))
+		errLogToConsole: true,
+		includePaths: require('node-bourbon').includePaths
+	}).on('error', sass.logError))
 	.pipe(postcss(postCssOpts))
 	.pipe(concat('style.css'))
     .pipe(csslint(csslint_options))

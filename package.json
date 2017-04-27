@@ -11,6 +11,7 @@
   "devDependencies": {
     "autoprefixer": "^6.7.7",
     "babel-preset-env": "^1.4.0",
+    "bourbon": "^4.3.4",
     "browser-sync": "^2.18.8",
     "browsersync": "0.0.1-security",
     "css-mqpacker": "^5.0.1",
@@ -29,9 +30,12 @@
     "gulp-sass": "^3.1.0",
     "gulp-strip-debug": "^1.1.0",
     "gulp-uglify": "^2.1.2",
+    "gulp-util": "^3.0.8",
     "postcss-assets": "^4.1.0"
   },
   "dependencies": {
+    "bourbon": "^4.3.4",
+    "node-bourbon": "^4.2.8",
     "normalize-scss": "^6.0.0"
   }
 }

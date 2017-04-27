@@ -1,0 +1,62 @@
+/*************************************************************************
+// Global components
+*************************************************************************/
+
+.btn {
+  background-color: $primary-color;
+  background-image: none;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font-family: $font-secondary;
+  font-size: rem-calc(16);
+  padding: rem-calc(15);
+  border: none;
+  border-radius: 0;
+  line-height: inherit;
+  margin-bottom: rem-calc(16);
+  @include transition(background-color 0.25s ease-in);
+  i {
+    font-size: rem-calc(16);
+    margin-left: rem-calc(5);
+  }
+  &:hover, &.btn-read-less {
+    background-color: $black;
+    color: $white;
+  }
+}
+
+.btn-read-more {
+  margin-top: rem-calc(16);
+}
+
+.breadcrumbs {
+  font-family: $font-secondary, $fontawesome;
+  margin-top: rem-calc(16);
+  margin-bottom: rem-calc(16);
+  span {
+    span {
+      padding: 0;
+    }
+  }
+  span:first-child {
+    padding-left: 0;
+  }
+}
+
+.featured-image {
+  margin-bottom: rem-calc(30);
+  width: 100%;
+}
+
+.inline-image {
+  &-left {
+    margin: rem-calc(0 15 15 0);
+    float: left;
+  }
+  &-right {
+    margin: rem-calc(0 0 15 15);
+    float: right;
+  }
+}

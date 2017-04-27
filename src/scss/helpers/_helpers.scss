@@ -1,0 +1,148 @@
+/*************************************************************************
+// Generic classes, good for semantic naming
+*************************************************************************/
+
+.no-padding {
+    padding: 0!important;
+}
+
+.background-color-gray-three {
+  background-color: $gray-three;
+}
+
+.list__style {
+  &-one {
+    ul {
+      padding-left: 0;
+      li {
+        position: relative;
+        padding-left: rem-calc(20);
+        list-style: none;
+        &:before {
+          content:" ";
+            position: absolute;
+            left: 0;
+            top: rem-calc(4);
+            font: $font-secondary rem-calc(12) $font-default;
+            text-align: center;
+            color: $white;
+            width: rem-calc(15);
+            height: rem-calc(15);
+            background: $primary-color;
+            border: rem-calc(5) solid $black;
+            @include border-radius(100%);
+        }
+      }
+    }
+  }
+}
+
+.auto__height {
+  .posts__item-content, .posts__item-thumb {
+    height: auto!important;
+    -webkit-align-self: flex-start;
+    -ms-flex-align-self: flex-start;
+    align-self: flex-start;
+  }
+}
+
+.text-white, .text-white * {
+  color: $white;
+}
+
+/*************************************************************************
+// Image effects - apply these classes on parent containers
+*************************************************************************/
+
+.filter-blur-5 {
+  img {
+    @include filter(blur(5px));
+  }
+}
+
+.hover-zoom-img {
+  &:hover {
+    img {
+      @include transform(scale(1.05));
+      transition: $transition-bezier;
+    }
+  }
+  img {
+      transition: $transition-bezier;
+  }
+}
+
+.hover-overlay {
+  .overlay {
+    opacity: 0;
+    transition: $transition-bezier;
+    a {
+      margin-top: rem-calc(30);
+      transition: $transition-bezier;
+    }
+  }
+  &:hover {
+    .overlay {
+      opacity: 1!important;
+      a {
+        margin-top: 0;
+        transition: $transition-bezier;
+      }
+    }
+  }
+}
+
+.round {
+  .featured-image-holder {
+    border-radius: 100%;
+    overflow: hidden;
+    align-self: flex-start;
+  }
+}
+
+.featured-image {
+  &-style-one {
+    padding: 0;
+    .featured-image-holder {
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        font-family: 'object-fit: cover';
+      }
+    }
+  }
+}
+
+.featured-image-style-one {
+  padding: 0;
+}
+
+/*************************************************************************
+// Decorators
+*************************************************************************/
+
+.divider-line {
+  &-one-100 {
+    position: relative;
+    text-align: left;
+    margin-bottom: rem-calc(20);
+    &:after {
+      content: '';
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      width: rem-calc(100);
+      height: rem-calc(5);
+      background-color: $primary-color;
+      transition: $transition-bezier;
+    }
+    &:hover {
+      &:after {
+        width: rem-calc(200);
+        transition: $transition-bezier;
+      }
+    }
+  }
+}

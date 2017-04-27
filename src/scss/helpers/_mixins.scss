@@ -1,0 +1,183 @@
+/* Removes all styles from an ordered/unordered list ----------------------- */
+@mixin reset-list-styles($float) {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  li {
+    float: $float;
+  }
+}
+
+/* Generate Flexbox grid ----------------------- */
+
+$breakpoint-zero: "screen and (min-width: 0)";
+$breakpoint-xsmall: "screen and (min-width: $xsmall-devices)";
+$breakpoint-small: "screen and (min-width: $small-devices)";
+$breakpoint-medium: "screen and (min-width: $medium-devices)";
+$breakpoint-large: "screen and (min-width: $large-devices)";
+
+$grid-columns: 12;
+
+@media #{$breakpoint-zero} {
+  @for $i from 0 through $grid-columns {
+      .flex-item-xs-#{$i} {
+        flex: 0 0 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+      }
+      .flex-xs-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+}
+
+@media #{$breakpoint-xsmall} {
+  @for $i from 0 through $grid-columns {
+      .flex-item-xs-sm-#{$i} {
+        flex: 0 0 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+      }
+      .flex-xs-sm-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+}
+
+@media #{$breakpoint-small} {
+  @for $i from 0 through $grid-columns {
+    .flex-item-sm-#{$i} {
+        flex: 0 0 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+        }
+      .flex-sm-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+}
+
+@media #{$breakpoint-medium} {
+  @for $i from 0 through $grid-columns {
+    .flex-item-md-#{$i} {
+        flex: 0 0 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+        }
+      .flex-md-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+}
+
+@media #{$breakpoint-large} {
+  @for $i from 0 through $grid-columns {
+    .flex-item-lg-#{$i} {
+        flex: 0 0 100% / $grid-columns * $i;
+        max-width: 100% / $grid-columns * $i;
+        }
+      .flex-lg-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+}
+
+/* Renders fully prefixed border radius ---------------------------------------- */
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-top-radius($radius) {
+  -webkit-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+  -webkit-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-right-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+  -webkit-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-bottom-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+  -webkit-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  background-clip: padding-box;
+}
+@mixin border-left-radius($radius) {
+  -webkit-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  -webkit-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+  background-clip: padding-box;
+}
+
+/* Calculate height based on width mixin ======================================= */
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    padding-top: ($height / $width) * 100%;
+  }
+  > .featured-image-holder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      font-family: 'object-fit: cover';
+    }
+  }
+}
+
+/* Calculate paddings based on media queries ======================================= */
+
+$banner_paddings: (
+  null  : 6rem 0 6rem 0,
+  480px : 12rem 0 12rem 0,
+  768px : 15rem 0 15rem 0,
+  992px : 18rem 0 18rem 0,
+  1200px : 22rem 0 22rem 0
+);
+
+$navbar_link_paddings: (
+  768px : 3rem,
+  992px : 0.1rem,
+  1400px : 1.2rem,
+  1800px : 3rem
+);
+
+@mixin padding($fs-map) {
+  @each $fs-breakpoint, $padding in $fs-map {
+    @if $fs-breakpoint == null {
+      padding: $padding;
+    }
+    @else {
+      @media screen and (min-width: $fs-breakpoint) {
+        padding: $padding;
+      }
+    }
+  }
+}
+
+@mixin horizontal-padding($fs-map) {
+  @each $fs-breakpoint, $padding in $fs-map {
+    @if $fs-breakpoint == null {
+      padding-left: $padding;
+      padding-right: $padding;
+    }
+    @else {
+      @media screen and (min-width: $fs-breakpoint) {
+      padding-left: $padding;
+      padding-right: $padding;
+      }
+    }
+  }
+}
